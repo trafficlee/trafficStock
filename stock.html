@@ -2,13 +2,15 @@
 <html lang="zh-CN">
 <head>
 <title>Traffic</title>
-<link rel="shortcut icon" href="images/gym.png">
+<link rel="shortcut icon" href="images/t.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-<link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="css/bootstrap.min.css" >
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="js/jquery-3.3.1.min.js" ></script>
-<script src="js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/bootstrap.min.js" ></script>
+<script src="js/stockUtil.js" ></script>
 </head>
 
 <style>
@@ -26,17 +28,43 @@ body{
 .nav.nav-pills.nav{
 	margin-top:13px;
 }
-.container-fluid.right{
+.container-fluid.rightTop{
 	background-color:white;
+	border-top: 3px solid #6699ff;
+	border-bottom: 1px solid #DCDCDC;
+	text-align: center;
 }
 .container-fluid.left{
 	background-color:white;
 }
 .container-fluid.middle{
-	margin-top:10px;
 	background-color:white;
 }
+.container-fluid.tab{
+	padding-left:0px;
+	padding-right:0px;
+}
+.container-fluid.tab li{
+	width:33.3%;
+}
+.container-fluid.dateTop{
+	border-top: 3px solid #6699ff;
+	border-bottom: 1px solid #DCDCDC;
+}
+.tab-content td{
+    font-size: 11px;
 
+}
+.nav-tabs>li.active>a,.nav-tabs>li.active>a:focus,.nav-tabs>li.active>a:hover{
+	font-weight:900;
+	font-size: 15px;
+	color:#337ab7;
+	cursor:default;
+	background-color:#fff;
+	border:1px solid #ddd;
+	border-bottom-color:transparent;
+	
+}
 </style>
 
 <body>
@@ -61,28 +89,42 @@ body{
 					1</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>11</br>1
 					</div>
 				</div>
-				<div class="col-xs-12 col-md-4">
+				<div class="col-xs-12 col-md-4" >
 					<div class="container-fluid"  >
-						<div class="container-fluid right">
-							<div class="container-fluid" >
-								<span class="date" id="date"></span>
-							</div>
-							<div class="container-fluid" >
+						<div class="container-fluid rightTop">
+							<h5 class="date" id="date"></h5>
+						</div>
+						<div class="container-fluid middle" >
+							<div class="container-fluid tab">
 								<ul class="nav nav-tabs" role="tablist">
-									<li role="presentation" class="active"><a href="AStock" aria-controls="home" role="tab" data-toggle="tab">A股</a></li>
+									<li role="presentation" class="active"><a href="#AStock" aria-controls="home" role="tab" data-toggle="tab">A股</a></li>
 									<li role="presentation"><a href="#HKStock" aria-controls="profile" role="tab" data-toggle="tab">港股</a></li>
 									<li role="presentation"><a href="#USAStock" aria-controls="messages" role="tab" data-toggle="tab">美股</a></li>
 								</ul>
-								<div class="tab-content">
-									<div role="tabpanel" class="tab-pane active" id="AStock">11111</div>
-									<div role="tabpanel" class="tab-pane" id="HKStock">222222</div>
-									<div role="tabpanel" class="tab-pane" id="USAStock">33333</div>
+								<div class="tab-content table-responsive">
+									<div role="tabpanel" class="tab-pane active" id="AStock">
+									<table class="table table-hover">
+										<tr><td id="">股票名称</td><td id="">最新价格</td><td id="">涨跌</td><td id="">涨跌幅度</td></tr>
+										<tr><td ><a id="AStockName" href="#"></a></td><td id="AStockValue"></td><td id="AStockRangeValue"></td><td id="AStockRangePercent"></td></tr>
+									</table>
+									</div>
+									<div role="tabpanel" class="tab-pane" id="HKStock">
+										<table class="table table-hover">
+										<tr><td id="">股票名称</td><td id="">最新价格</td><td id="">涨跌</td><td id="">涨跌幅度</td></tr>
+										<tr><td ><a id="HKStockName" href="#"></a></td><td id="HKStockValue"></td><td id="HKStockRangeValue"></td><td id="HKStockRangePercent"></td></tr>
+									</table>
+									</div>
+									<div role="tabpanel" class="tab-pane" id="USAStock">
+										<table class="table table-hover">
+										<tr><td id="">股票名称</td><td id="">最新价格</td><td id="">涨跌</td><td id="">涨跌幅度</td></tr>
+										<tr><td ><a id="USAStockName" href="#"></a></td><td id="USAStockValue"></td><td id="USAStockRangeValue"></td><td id="USAStockRangePercent"></td></tr>
+										</table>
+									</div>
 								</div>
 							</div>
+								
 						</div>
-						<div class="container-fluid middle">
-						1
-						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -90,12 +132,18 @@ body{
 	</div>
 	
 <script>
-	$('.nav.nav-tabs a').click(function (e) {
-		e.preventDefault()
-		$(this).tab('show')
-	})
 	
-	document.getElementById("date").innerHTML = new Date();
+	setInterval(function(){
+		document.getElementById("date").innerHTML = getChineseDate();
+	}
+	,"1000");
+	
+	
+	
+	getStockBasic("AStock","sh000001");
+	getStockBasic("HKStock","hkHSI");
+	getStockBasic("USAStock","usDJI");
+	
 </script>
 	
 
