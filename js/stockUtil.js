@@ -5,31 +5,36 @@ function getWeekDay(dayStamp){
 
 function getStockBasic(stockName,stockNum){
 	var stockJson = $().quotation(stockNum);
-	console.log(stockJson);
-	if( stockJson!="" && stockJson!= null && stockJson !=undefined ){
 	
-		document.getElementById(stockName+"Name").innerHTML = stockJson[1];
-		document.getElementById(stockName+"Value").innerHTML = stockJson[3];
-		document.getElementById(stockName+"RangeValue").innerHTML = stockJson[31];
-		document.getElementById(stockName+"RangePercent").innerHTML = stockJson[32];
+	for( var i = 0; i < stockJson.length ;  i++){
 		
-		if( parseFloat(stockJson[31]) < 0 && !isNaN(stockJson[31])){
-		
-			document.getElementById(stockName+"Value").style.color = "#1dbf60";
-			document.getElementById(stockName+"RangeValue").style.color = "#1dbf60";
-			document.getElementById(stockName+"RangePercent").style.color = "#1dbf60";
+		if( stockJson[i].trim()!="" && stockJson[i]!= null && stockJson[i] !=undefined ){
 			
-		}else if( parseFloat(stockJson[31]) > 0 && !isNaN(stockJson[31]) ){
-		
-			document.getElementById(stockName+"Value").style.color = "#f24957";
-			document.getElementById(stockName+"RangeValue").style.color = "#f24957";
-			document.getElementById(stockName+"RangePercent").style.color = "#f24957";
+			stock = stockJson[i].split("~");
+			document.getElementById(stockName+"Name").innerHTML = stock[1];
+			document.getElementById(stockName+"Value").innerHTML = stock[3];
+			document.getElementById(stockName+"RangeValue").innerHTML = stock[31];
+			document.getElementById(stockName+"RangePercent").innerHTML = stock[32];
 			
+			if( parseFloat(stock[31]) < 0 && !isNaN(stock[31])){
+			
+				document.getElementById(stockName+"Value").style.color = "#1dbf60";
+				document.getElementById(stockName+"RangeValue").style.color = "#1dbf60";
+				document.getElementById(stockName+"RangePercent").style.color = "#1dbf60";
+				
+			}else if( parseFloat(stock[31]) > 0 && !isNaN(stock[31]) ){
+			
+				document.getElementById(stockName+"Value").style.color = "#f24957";
+				document.getElementById(stockName+"RangeValue").style.color = "#f24957";
+				document.getElementById(stockName+"RangePercent").style.color = "#f24957";
+				
+			}
 		}
 	}
 		
 		
 }
+
 
 function getChineseDate(){
     var now = new Date();
@@ -45,34 +50,44 @@ function getChineseDate(){
 }
 
 jQuery.fn.extend({  
-    'quotation':function(stockCode){  
-	var str = "";
+    'quotation':function(stockCode){
+
+	var stockArr;
         $.ajax({
 				url:"http://qt.gtimg.cn/q="+stockCode,
-				header:{
-					"Access-Control-Allow-Origin":"*" 
-				},
-				//dataType: 'jsonp',
+
 				//type: "POST",
 				//contentType:"application/json; charset=utf-8",
 				async:false,
+				/*beforeSend: function(jqXHR) {
+                    jqXHR.overrideMimeType('text/xml;charset=GBK');
+
+                    jqXHR.setRequestHeader("Access-Control-Allow-Origin", "*");
+                    jqXHR.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                    jqXHR.setRequestHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS, DELETE, PUT, HEAD");
+					jqXHR.setRequestHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS, DELETE, PUT, HEAD");
+					
+                },*/
+				headers :{
+					'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+					//"Access-Control-Allow-Origin": "*"
+				},
 				success:function(msg){ 
-				    console.log(msg) 
-					str = msg.split("~");
-					for( var o in str){
-						console.log("--"+o+"--"+str[o]); 
-					}
+				    console.log("--success--"+msg) ;
+					stockArr = msg.split(";");
+					console.log(stockArr) ;
 				}, 
-				error:function(){ 
-			    	console.log("quotation error") ;
-					alert("获取股票信息失败");
-				} 
+				error:function(msg){ 
+					console.log("quotation Error");
+			    	console.log(msg) ;
+				},
 			}); 
-			return str;
+			return stockArr;
     }  
 })  
-
+/*
 $('.nav.nav-tabs a').click(function (e) {
-		e.preventDefault()
-		$(this).tab('show')
-})
+		e.preventDefault();
+		
+		
+})*/

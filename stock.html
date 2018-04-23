@@ -3,8 +3,9 @@
 <head>
 <title>Traffic</title>
 <link rel="shortcut icon" href="images/t.png">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta http-equiv="Access-Control-Allow-Origin" content="*" />
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 <link rel="stylesheet" href="css/bootstrap.min.css" >
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
@@ -107,6 +108,7 @@ body{
 										<tr><td id="">股票名称</td><td id="">最新价格</td><td id="">涨跌</td><td id="">涨跌幅度</td></tr>
 										<tr><td ><a id="AStockName" href="#"></a></td><td id="AStockValue"></td><td id="AStockRangeValue"></td><td id="AStockRangePercent"></td></tr>
 									</table>
+									<img src="" class="img-rounded"></img>
 									</div>
 									<div role="tabpanel" class="tab-pane" id="HKStock">
 										<table class="table table-hover">
@@ -138,11 +140,35 @@ body{
 	}
 	,"1000");
 	
-	
-	
 	getStockBasic("AStock","sh000001");
-	getStockBasic("HKStock","hkHSI");
-	getStockBasic("USAStock","usDJI");
+	
+	$('.nav-tabs>li>a').click(function (e) {
+		var tabId = $(this)[0].hash.split("#")[1];
+		var stockNum = "";
+		
+		switch(tabId){
+			case "AStock":
+			stockNum = "sh000001";
+			break;
+			case "HKStock":
+			stockNum = "hkHSI";
+			break;
+			case "USAStock":
+			stockNum = "usDJI";
+			break;
+		}
+		
+		getStockBasic(tabId,stockNum);
+		
+	});
+	
+
+	
+	
+	
+	//getStockBasic("AStock","sh000001");
+	//getStockBasic("HKStock","hkHSI");
+	//getStockBasic("USAStock","usDJI");
 	
 </script>
 	
