@@ -12,6 +12,7 @@
 <script src="js/jquery-3.3.1.min.js" ></script>
 <script src="js/bootstrap.min.js" ></script>
 <script src="js/stockUtil.js" ></script>
+<script src="js/echarts.min.js" ></script>
 </head>
 
 <style>
@@ -41,6 +42,13 @@ body{
 .container-fluid.middle{
 	background-color:white;
 }
+.container-fluid.bottom{
+	background-color:white;
+}
+.container-fluid.bottom.chart{
+	width:300px;
+	height:300px;
+}
 .container-fluid.tab{
 	padding-left:0px;
 	padding-right:0px;
@@ -66,6 +74,7 @@ body{
 	border-bottom-color:transparent;
 	
 }
+
 </style>
 
 <body>
@@ -124,16 +133,21 @@ body{
 									</div>
 								</div>
 							</div>
-								
 						</div>
-						
+						<div class="container-fluid bottom" >
+
+							<div id="chart" class="container-fluid bottom chart"></div>
+							<img src="" id="stockImg"/>
+						</div>
 					</div>
+					
 				</div>
 			</div>
 		</div>
 	</div>
-	
 <script>
+	
+	getTimestamp("yesterday");
 	
 	setInterval(function(){
 		document.getElementById("date").innerHTML = getChineseDate();
@@ -141,6 +155,7 @@ body{
 	,"1000");
 	
 	getStockBasic("AStock","sh000001");
+	
 	
 	$('.nav-tabs>li>a').click(function (e) {
 		var tabId = $(this)[0].hash.split("#")[1];
@@ -162,13 +177,51 @@ body{
 		
 	});
 	
+	gettimeSharing("sz002048");
 
+	/*var timeSharingArr = gettimeSharing("sz002048");
+	console.log("begin");
+	console.log(timeSharingArr);
+	console.log("end");
+	for( var o in timeSharingArr){
+		console.log(timeSharingArr[o]);
+	}*/
 	
-	
-	
-	//getStockBasic("AStock","sh000001");
-	//getStockBasic("HKStock","hkHSI");
-	//getStockBasic("USAStock","usDJI");
+	var timeArr = [];
+	var valueArr = [];
+
+// 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('chart'));
+
+        // 指定图表的配置项和数据
+        option = {
+			tooltip:{
+				show:true,
+			},
+			xAxis: {
+				type: 'category',
+				data: timeArr,
+				axisLabel:{
+					interval:2
+				},
+			},
+			yAxis: {
+				type: 'value'
+			},
+			series: [{
+				data: [820, 932, 901, 934, 1290, 1330, 1320],
+				type: 'line',
+				smooth: true,
+				animation:false,
+			}]
+		};
+		
+//echarts.init(document.getElementById("chart")).setOption(option);
+
+myChart.setOption(option);
+var src = myChart.getDataURL();
+document.getElementById("stockImg").src = src;
+//debugger;
 	
 </script>
 	
