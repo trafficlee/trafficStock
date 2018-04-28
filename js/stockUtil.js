@@ -44,13 +44,48 @@ function getStockBasic(stockName,stockNum){
 	}
 }
 
-function gettimeSharing(stockCode){
-	debugger;
-	var timeSharingArr = $().timeSharing(stockCode);
-	console.log(timeSharingArr);
-	//return timeSharingArr;
+
+//分时行情时间转换String
+function getStringTime(objectDate){
+	var timeString = objectDate.values[2].toString();
+	var time = "";
+	
+	if( timeString.length > 8){
+		var hour = timeString.substring(0,2);
+		var minute = timeString.substring(2,4);
+		time = hour + ":" + minute;
+	}else{
+		var hour = timeString.substring(0,1);
+		var minute = timeString.substring(1,3);
+		time = hour + ":" + minute;
+		time = "0"+time;
+	}
+	
+	return time;
 }
 
+//分时行情日期转换String
+function getStringDate(objectDate){
+	var dateString = objectDate.values[1].toString();
+	var year = dateString.substring(0,4);
+	var month = dateString.substring(4,6);
+	var day = dateString.substring(6,8);
+	var timeString = objectDate.values[2].toString();
+	var time = "";
+	
+	if( timeString.length > 9){
+		var hour = timeString.substring(0,2);
+		var minute = timeString.substring(2,4);
+		time = hour + ":" + minute;
+	}else{
+		var hour = timeString.substring(0,1);
+		var minute = timeString.substring(1,3);
+		time = hour + ":" + minute;
+		time = "0"+time;
+	}
+	
+	return year+"/"+month+"/"+day+" " +time;
+}
 
 //获取时间戳
 function getTimestamp(timestamp){
@@ -142,26 +177,20 @@ jQuery.fn.extend({
 
 //分时json ajax
 jQuery.fn.extend({  
-    'timeSharing':function(stockCode){
-
-	//var timeSharingArr;
-        $.ajax({
+    "timeSharing":function(stockCode){
+		$.ajax({
 			url:"https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code="+stockCode,
 			async:false,
 			dataType:'JSONP',
-			jsonp:"callback",
-			
 			success:function(msg){ 
-				console.log(msg) ;
+				console.log("mag---"+msg) ;
 				timeSharingArr = msg;
-				console.log(timeSharingArr) ;
 			}, 
 			error:function(msg){ 
 				console.log("timeSharing Error");
 				console.log(msg) ;
 			},
 		}); 
-		//return timeSharingArr;
-    }  
-})  
+	}
+})
 
