@@ -1,9 +1,10 @@
-
+//获取星期X
 function getWeekDay(dayStamp){
 	var weekDay = "星期" + "日一二三四五六".charAt(dayStamp);
 	return weekDay;
 }
 
+//获取分时简单数据
 function getStockTimeShareSimpleDate(timeArrName,stockCode){
 	$.ajax({
 		url:"https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code="+stockCode,
@@ -28,6 +29,7 @@ function getStockTimeShareSimpleDate(timeArrName,stockCode){
 				valueArr.push(num);
 			}
 			
+			//初始化图表
 			initSimpleChart(timeArrName,valueArr,preArr,avgArr);
 			
 		}, 
@@ -46,6 +48,19 @@ function getStockTimeShareSimpleDate(timeArrName,stockCode){
 function getStockBasic(stockName,stockNum){
 	var stockJson = $().quotation(stockNum);
 	
+	//下跌颜色
+	var down = "";
+	//上升颜色
+	var up = "";
+	if( stockName=="AStock" ){
+		down = "#1dbf60";
+		up = "#f24957";
+	}else{
+		up = "#1dbf60";
+		down = "#f24957";
+	}
+	
+	
 	console.log(stockJson);
 	if( stockJson){
 		for( var i = 0; i < stockJson.length ;  i++){
@@ -60,15 +75,15 @@ function getStockBasic(stockName,stockNum){
 				
 				if( parseFloat(stock[31]) < 0 && !isNaN(stock[31])){
 				
-					document.getElementById(stockName+"Value").style.color = "#1dbf60";
-					document.getElementById(stockName+"RangeValue").style.color = "#1dbf60";
-					document.getElementById(stockName+"RangePercent").style.color = "#1dbf60";
+					document.getElementById(stockName+"Value").style.color = down;
+					document.getElementById(stockName+"RangeValue").style.color = down;
+					document.getElementById(stockName+"RangePercent").style.color = down;
 					
 				}else if( parseFloat(stock[31]) > 0 && !isNaN(stock[31]) ){
 				
-					document.getElementById(stockName+"Value").style.color = "#f24957";
-					document.getElementById(stockName+"RangeValue").style.color = "#f24957";
-					document.getElementById(stockName+"RangePercent").style.color = "#f24957";
+					document.getElementById(stockName+"Value").style.color = up;
+					document.getElementById(stockName+"RangeValue").style.color = up;
+					document.getElementById(stockName+"RangePercent").style.color = up;
 					document.getElementById(stockName+"RangeValue").innerHTML = "+"+stock[31];
 					document.getElementById(stockName+"RangePercent").innerHTML = "+"+stock[32]+"%";
 					
@@ -166,7 +181,7 @@ function getTimestamp(timestamp){
 	return todayTimestamp;
 }
 
-
+//格式化成年月日
 function getChineseDate(){
     var now = new Date();
     var year = now.getFullYear()+'年';
