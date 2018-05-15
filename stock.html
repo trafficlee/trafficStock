@@ -14,77 +14,8 @@
 <script src="js/stockUtil.js" ></script>
 <script src="js/echarts.min.js" ></script>
 </head>
+<link rel="stylesheet" href="css/stock.css" >
 
-<style>
-body{
-	background-color:#F4F5F5
-}
-
-.container-fluid.head{
-	background-color:white;
-	height:65px;
-}
-.container-fluid.content{
-	margin-top:30px;
-}
-.nav.nav-pills.nav{
-	margin-top:13px;
-}
-.container-fluid.rightTop{
-	background-color:white;
-	border-top: 3px solid #6699ff;
-	border-bottom: 1px solid #DCDCDC;
-	text-align: center;
-}
-.container-fluid.left{
-	background-color:white;
-}
-.container-fluid.middle{
-	background-color:white;
-}
-.container-fluid.bottom{
-	background-color:white;
-}
-.container-fluid.bottom.chart.none{
-	//display:none;
-	height:150px;
-	width:100%;
-	padding-left:0px;
-	padding-right:0px;
-}
-.container-fluid.bottom.chart{
-	height:100%;
-	width:100%;
-	padding-left:0px;
-	padding-right:0px;
-}
-.container-fluid.tab{
-	padding-left:0px;
-	padding-right:0px;
-}
-.container-fluid.tab li{
-	width:33.3%;
-}
-.container-fluid.dateTop{
-	border-top: 3px solid #6699ff;
-	border-bottom: 1px solid #DCDCDC;
-}
-.tab-content td{
-    font-size: 11px;
-
-}
-.nav-tabs>li.active>a,.nav-tabs>li.active>a:focus,.nav-tabs>li.active>a:hover{
-	font-weight:900;
-	font-size: 15px;
-	color:#337ab7;
-	cursor:default;
-	background-color:#fff;
-	border:1px solid #ddd;
-	border-bottom-color:transparent;
-	
-}
-
-</style>
 
 <body>
 	
@@ -163,7 +94,7 @@ body{
 
 	
 	var day = getTimestamp("today");
-	console.log(day);
+	
 	
 	setInterval(function(){
 		document.getElementById("date").innerHTML = getChineseDate();

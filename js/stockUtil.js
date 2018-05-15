@@ -15,18 +15,20 @@ function getStockTimeShareSimpleDate(timeArrName,stockCode){
 			var valueArr = [];
 			var preArr = [];
 			var avgArr = [];
-			var data = msg.data.timeline.timeline;
 			
-			for(var i = 0 ; i < data.length; i ++){
+			if( msg.data != null){
+				var data = msg.data.timeline.timeline;
+				for(var i = 0 ; i < data.length; i ++){
 				
-				var numStr = data[i].values[4];
-				var numDouble = parseFloat(numStr);
-				var num = numDouble.toFixed(2);
-				var pre = data[i].values[9];
-				var avg = data[i].values[6];
-				avgArr.push(avg);
-				preArr.push(pre);
-				valueArr.push(num);
+					var numStr = data[i].values[4];
+					var numDouble = parseFloat(numStr);
+					var num = numDouble.toFixed(2);
+					var pre = data[i].values[9];
+					var avg = data[i].values[6];
+					avgArr.push(avg);
+					preArr.push(pre);
+					valueArr.push(num);
+				}
 			}
 			
 			//初始化图表
